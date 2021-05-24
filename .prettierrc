@@ -1,0 +1,13 @@
+{
+	"filepath": "{src,__tests__,__mocks__,cypress}/**/*.ts*",
+	"parser": "typescript",
+	"printWidth": 120,
+	"tabWidth": 4,
+	"semi": false,
+	"singleQuote": true,
+	"trailingComma": "es5",
+	"bracketSpacing": false,
+	"arrowParens": "always",
+	"jsxSingleQuote": true,
+	"endOfLine": "auto"
+}
