@@ -6,8 +6,9 @@ import {SkillBox} from 'components/SkillBox'
 import {StarButton} from 'components/StarButton'
 import React, {useMemo} from 'react'
 import {QueryClient, useMutation, useQuery, useQueryClient} from 'react-query'
-import {deleteStar, getStarred, postStar, TBuddy, TStarred} from 'pages/api'
+import {deleteStar, getStarred, postStar} from 'pages/api'
 import {dehydrate} from 'react-query/hydration'
+import {TBuddy, TStarred} from 'types/types'
 
 export const GET_STARRED_KEY = 'starred'
 

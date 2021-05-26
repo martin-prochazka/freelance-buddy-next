@@ -37,7 +37,7 @@ module.exports = function () {
 			return {
 				id,
 				user: {
-					id,
+					id: `${id}`,
 					name: faker.name.findName(),
 					email: faker.internet.email(),
 					avatar: avatarGen.generateRandomAvatar(),
