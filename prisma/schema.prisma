@@ -9,3 +9,26 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model User {
+  id      String @id @default(cuid())
+  name    String
+  email   String
+  avatar  String
+  buddyId Int?
+  buddy   Buddy? @relation(fields: [buddyId], references: [id])
+}
+
+model Skill {
+  id      Int    @id @default(autoincrement())
+  name    String
+  buddyId Int?
+  buddy   Buddy? @relation(fields: [buddyId], references: [id])
+}
+
+model Buddy {
+  id     Int     @id @default(autoincrement())
+  role   String
+  skills Skill[]
+  user   User?
+}
