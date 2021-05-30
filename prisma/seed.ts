@@ -6,7 +6,7 @@ import _ from 'lodash'
 const prisma = new PrismaClient()
 const avatarGen = new AvatarGenerator()
 
-const USERS_COUNT = 55
+const USERS_COUNT = 105
 const ROLES_WITH_SKILLS = [
 	{
 		roleName: 'Frontend Developer',

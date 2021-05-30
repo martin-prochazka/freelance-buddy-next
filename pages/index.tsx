@@ -25,18 +25,16 @@ const SearchPage: React.FC = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [searchDebounced] = useDebounce(searchValue, 500)
 
-	const {data, fetchNextPage, status, isFetchingNextPage, hasNextPage} = useInfiniteQuery<TBuddy[]>(
+	const {data: response, fetchNextPage, status, isFetchingNextPage, hasNextPage} = useInfiniteQuery<{data: TBuddy[]; nextPage?: number}>(
 		[GET_BUDDIES_KEY, searchDebounced],
 		(params) => getBuddies({search: searchDebounced, pageParam: params.pageParam ?? 1}),
 		{
-			getNextPageParam: (lastPage, allPages) => {
-				return lastPage.length === PAGE_ITEMS && allPages.length + 1
-			},
+			getNextPageParam: (lastPage) => lastPage.nextPage,
 		}
 	)
 
 	if (status === 'error') {
-		return <>An error ocurred</>
+		return <>An error occurred</>
 	}
 
 	return (
@@ -54,7 +52,7 @@ const SearchPage: React.FC = () => {
 			</Center>
 			<Flex flexWrap='wrap' justifyContent='center' alignItems='center'>
 				{status === 'loading' && <Spinner size='xl' color='gray' />}
-				{status === 'success' && data?.pages?.flat().map((buddy, j) => <SearchBuddy buddy={buddy} key={j} />)}
+				{status === 'success' && response?.pages?.map(({data}) => data).flat().map((buddy, j) => <SearchBuddy buddy={buddy} key={j} />)}
 			</Flex>
 			<Center marginY='5%'>
 				<Button

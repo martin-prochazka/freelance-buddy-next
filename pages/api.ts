@@ -6,12 +6,12 @@ import {buddyCodec, starredCodec} from 'types/types'
 export const PAGE_ITEMS = 20
 
 export const getBuddies = async ({search = '', pageParam}: {search?: string; pageParam?: number}) => {
-	const {data} = await axios.get(`/api/buddies?q=${search}&_page=${pageParam}&_limit=${PAGE_ITEMS}`)
-	// const {data} = await axios.get(`/api-json/buddies?q=${search}&_page=${pageParam}&_limit=${PAGE_ITEMS}`)
+	const {data: response} = await axios.get(`/api/buddies?search=${search}&page=${pageParam}&count=${PAGE_ITEMS}`)
 
-	const decoded = t.array(buddyCodec).decode(data)
+	const decoded = t.array(buddyCodec).decode(response.data)
 	if (isRight(decoded)) {
-		return data
+		const {data, nextPage} = response
+		return {data, nextPage}
 	}
 
 	throw new Error()
