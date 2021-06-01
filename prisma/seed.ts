@@ -40,6 +40,7 @@ function getBuddies() {
 			user: {
 				name: faker.name.findName(),
 				email: faker.internet.email(),
+				password: faker.internet.password(5),
 				avatar: avatarGen.generateRandomAvatar(),
 			},
 			role: role.roleName,

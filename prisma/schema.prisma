@@ -11,12 +11,13 @@ generator client {
 }
 
 model User {
-  id      String @id @default(cuid())
-  name    String
-  email   String
-  avatar  String
-  buddyId Int?
-  buddy   Buddy? @relation(fields: [buddyId], references: [id])
+  id       Int    @id @default(autoincrement())
+  name     String
+  password String
+  email    String @unique
+  avatar   String
+  buddyId  Int?
+  buddy    Buddy? @relation(fields: [buddyId], references: [id])
 }
 
 model Skill {

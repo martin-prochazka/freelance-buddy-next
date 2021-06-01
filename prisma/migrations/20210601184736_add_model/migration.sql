@@ -1,7 +1,8 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "avatar" TEXT NOT NULL,
     "buddyId" INTEGER,

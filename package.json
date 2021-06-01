@@ -20,11 +20,12 @@
     "framer-motion": "^4.1.17",
     "io-ts": "^2.2.16",
     "next": "latest",
+    "next-auth": "^3.24.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.2.0",
     "react-query": "^3.16.0",
-    "use-debounce": "^6.0.1",
-    "react-icons": "^4.2.0"
+    "use-debounce": "^6.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",

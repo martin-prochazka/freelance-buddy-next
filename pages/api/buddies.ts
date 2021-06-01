@@ -35,13 +35,22 @@ export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[];
 		}
 
 		const dbBuddies = await prisma.buddy.findMany({
-			include: {
-				skills: true,
-				user: true,
-			},
 			skip,
 			take,
 			where,
+			select: {
+				id: true,
+				skills: true,
+				role: true,
+				user: {
+					select: {
+						id: true,
+						avatar: true,
+						email: true,
+						name: true,
+					},
+				},
+			},
 		})
 		const dbCount = await prisma.buddy.count({where})
 
