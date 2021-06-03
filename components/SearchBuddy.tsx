@@ -4,30 +4,18 @@ import {SearchBuddyHeader} from 'components/SearchBuddyHeader'
 import {Skill} from 'components/Skill'
 import {SkillBox} from 'components/SkillBox'
 import {StarButton} from 'components/StarButton'
+import {useSession} from 'next-auth/client'
+import {deleteStar, postStar} from 'pages/api'
 import React, {useMemo} from 'react'
-import {QueryClient, useMutation, useQuery, useQueryClient} from 'react-query'
-import {deleteStar, getStarred, postStar} from 'pages/api'
-import {dehydrate} from 'react-query/hydration'
+import {useMutation, useQueryClient} from 'react-query'
 import {TBuddy, TStarred} from 'types/types'
 
 export const GET_STARRED_KEY = 'starred'
 
-export async function getServerSideProps() {
-	const queryClient = new QueryClient()
-
-	await queryClient.prefetchQuery(GET_STARRED_KEY, getStarred)
-
-	return {
-		props: {
-			dehydratedState: dehydrate(queryClient),
-		},
-	}
-}
-
-export const SearchBuddy: React.FC<{buddy: TBuddy}> = ({buddy}) => {
+export const SearchBuddy: React.FC<{buddy: TBuddy; starred: TStarred[]}> = ({buddy, starred}) => {
+	const [session] = useSession()
 	const queryClient = useQueryClient()
 
-	const {data: starred = []} = useQuery<TStarred[]>(GET_STARRED_KEY, getStarred)
 	const starredIds = useMemo(() => starred.map(({buddyId}) => buddyId), [starred])
 	const isStarred = useMemo(() => starredIds.includes(buddy.id), [buddy.id, starredIds])
 
@@ -60,9 +48,7 @@ export const SearchBuddy: React.FC<{buddy: TBuddy}> = ({buddy}) => {
 					<Skill skill={skill} key={index} />
 				))}
 			</SkillBox>
-			<Center>
-				<StarButton isStarred={isStarred} onClick={onStarClick} />
-			</Center>
+			<Center>{session && <StarButton isStarred={isStarred} onClick={onStarClick} />}</Center>
 		</BuddyBox>
 	)
 }

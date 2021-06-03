@@ -1,11 +1,11 @@
 import {Button, Center, Flex, Input, Spinner, Text} from '@chakra-ui/react'
-import {SearchBuddy} from 'components/SearchBuddy'
+import {GET_STARRED_KEY, SearchBuddy} from 'components/SearchBuddy'
 import {signIn, signOut, useSession, getSession} from 'next-auth/client'
-import {getBuddies, PAGE_ITEMS} from 'pages/api'
+import {getBuddies, getStarred, PAGE_ITEMS} from 'pages/api'
 import React, {useState} from 'react'
-import {QueryClient, useInfiniteQuery} from 'react-query'
+import {QueryClient, useInfiniteQuery, useQuery} from 'react-query'
 import {dehydrate} from 'react-query/hydration'
-import {TBuddy} from 'types/types'
+import {TBuddy, TStarred} from 'types/types'
 import {useDebounce} from 'use-debounce'
 import type {NextPageContext} from 'next'
 
@@ -15,6 +15,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
 	const queryClient = new QueryClient()
 
 	await queryClient.prefetchQuery([GET_BUDDIES_KEY, ''], getBuddies)
+	await queryClient.prefetchQuery(GET_STARRED_KEY, getStarred) // TODO Auth
 
 	return {
 		props: {
@@ -42,6 +43,8 @@ const SearchPage: React.FC = () => {
 			getNextPageParam: (lastPage) => lastPage.nextPage,
 		}
 	)
+
+	const {data: starred = []} = useQuery<TStarred[]>(GET_STARRED_KEY, getStarred)
 
 	if (status === 'error') {
 		return <>An error occurred</>
@@ -84,7 +87,7 @@ const SearchPage: React.FC = () => {
 						response?.pages
 							?.map(({data}) => data)
 							.flat()
-							.map((buddy, j) => <SearchBuddy buddy={buddy} key={j} />)}
+							.map((buddy, j) => <SearchBuddy buddy={buddy} starred={starred} key={j} />)}
 				</Flex>
 				<Center marginY='5%'>
 					<Button

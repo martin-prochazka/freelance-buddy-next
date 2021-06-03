@@ -11,13 +11,13 @@ generator client {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  email    String    @unique
   name     String
   password String
-  email    String @unique
   avatar   String
   buddyId  Int?
-  buddy    Buddy? @relation(fields: [buddyId], references: [id])
+  buddy    Buddy?    @relation(fields: [buddyId], references: [id])
+  starred  Starred[]
 }
 
 model Skill {
@@ -28,8 +28,17 @@ model Skill {
 }
 
 model Buddy {
-  id     Int     @id @default(autoincrement())
-  role   String
-  skills Skill[]
-  user   User?
+  id      Int       @id @default(autoincrement())
+  role    String
+  skills  Skill[]
+  user    User?
+  starred Starred[]
+}
+
+model Starred {
+  id      Int     @id @default(autoincrement())
+  buddyId Int?
+  buddy   Buddy?  @relation(fields: [buddyId], references: [id])
+  userId  String?
+  user    User?   @relation(fields: [userId], references: [email])
 }

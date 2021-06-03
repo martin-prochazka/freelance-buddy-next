@@ -1,9 +1,8 @@
-import {PrismaClient, Prisma} from '@prisma/client'
+import {Prisma} from '@prisma/client'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {PAGE_ITEMS} from 'pages/api'
 import {TBuddy} from 'types/types'
-
-const prisma = new PrismaClient()
+import prisma from 'prisma/db'
 
 export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[]; nextPage?: number}>) => {
 	const {
@@ -44,7 +43,6 @@ export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[];
 				role: true,
 				user: {
 					select: {
-						id: true,
 						avatar: true,
 						email: true,
 						name: true,
@@ -62,7 +60,8 @@ export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[];
 		const nextPage = dbCount > page * take ? page + 1 : undefined
 
 		res.status(200).json({data: buddies, nextPage})
+		return
 	}
 
-	res.status(401)
+	res.status(403).end()
 }

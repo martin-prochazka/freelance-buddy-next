@@ -1,7 +1,6 @@
 import * as t from 'io-ts'
 
 const userCodec = t.type({
-	id: t.number,
 	name: t.string,
 	email: t.string,
 	avatar: t.string,
