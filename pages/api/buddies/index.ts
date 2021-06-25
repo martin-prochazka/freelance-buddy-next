@@ -1,8 +1,22 @@
 import {Prisma} from '@prisma/client'
+import {PAGE_ITEMS} from 'app/SearchPage/api/buddies'
+import {TBuddy} from 'app/SearchPage/api/types'
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {PAGE_ITEMS} from 'pages/api'
-import {TBuddy} from 'types/types'
 import prisma from 'prisma/db'
+
+const getNumber = (param: string | string[]): number | null => {
+	if (Array.isArray(param)) {
+		return null
+	}
+
+	const number = Number(param)
+
+	if (Number.isNaN(number)) {
+		return null
+	}
+
+	return number
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[]; nextPage?: number}>) => {
 	const {
@@ -11,8 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[];
 	} = req
 
 	if (method === 'GET') {
-		const page = Number(pageParam ?? 1)
-		const take = Number(countParam ?? PAGE_ITEMS)
+		const page = getNumber(pageParam) ?? 1
+		const take = getNumber(countParam) ?? PAGE_ITEMS
 		const skip = (page - 1) * take
 		const search = searchParam as string
 

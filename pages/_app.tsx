@@ -6,6 +6,7 @@ import {ReactQueryDevtools} from 'react-query/devtools'
 import {Provider as NextAuthProvider} from 'next-auth/client'
 
 import type {AppProps} from 'next/app'
+import {Layout} from 'app/Layout/components/Layout'
 
 const theme = extendTheme({
 	styles: {
@@ -28,7 +29,9 @@ export default function App({Component, pageProps}: AppProps) {
 			<ChakraProvider theme={theme}>
 				<QueryClientProvider client={queryClientRef.current}>
 					<Hydrate state={pageProps.dehydratedState}>
-						<Component {...pageProps} />
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
 					</Hydrate>
 					<ReactQueryDevtools initialIsOpen={false} />
 				</QueryClientProvider>
