@@ -6,7 +6,7 @@ import {ReactQueryDevtools} from 'react-query/devtools'
 import {Provider as NextAuthProvider} from 'next-auth/client'
 
 import type {AppProps} from 'next/app'
-import {Layout} from 'app/Layout/components/Layout'
+import {Layout} from 'app/layout/components/Layout'
 
 const theme = extendTheme({
 	styles: {

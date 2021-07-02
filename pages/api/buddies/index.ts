@@ -1,6 +1,6 @@
 import {Prisma} from '@prisma/client'
-import {PAGE_ITEMS} from 'app/SearchPage/api/buddies'
-import {TBuddy} from 'app/SearchPage/api/types'
+import {PAGE_ITEMS} from 'app/search-page/api/buddies'
+import {TBuddy} from 'app/search-page/api/types'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from 'prisma/db'
 

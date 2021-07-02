@@ -1,7 +1,7 @@
 import {Button, Center, Flex, Input, Spinner} from '@chakra-ui/react'
-import {PAGE_ITEMS} from 'app/SearchPage/api/buddies'
-import {SearchBuddy} from 'app/SearchPage/components/SearchBuddy'
-import {useGetBuddies, useGetStarred} from 'app/SearchPage/hooks'
+import {PAGE_ITEMS} from 'app/search-page/api/buddies'
+import {SearchBuddy} from 'app/search-page/components/SearchBuddy'
+import {useGetBuddies, useGetStarred} from 'app/search-page/hooks'
 import React, {useState} from 'react'
 import {useDebounce} from 'use-debounce'
 

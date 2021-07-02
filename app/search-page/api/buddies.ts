@@ -1,5 +1,5 @@
-import {SERVER_PATH} from 'app/SearchPage/api/constants'
-import {buddyCodec} from 'app/SearchPage/api/types'
+import {SERVER_PATH} from 'app/search-page/api/constants'
+import {buddyCodec} from 'app/search-page/api/types'
 import axios from 'axios'
 import {isRight} from 'fp-ts/Either'
 import * as t from 'io-ts'

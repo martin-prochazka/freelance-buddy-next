@@ -1,5 +1,5 @@
 import {Flex} from '@chakra-ui/react'
-import {TopMenu} from 'app/Layout/components/TopMenu'
+import {TopMenu} from 'app/layout/components/TopMenu'
 import React from 'react'
 
 export const Layout: React.FC = ({children}) => (
