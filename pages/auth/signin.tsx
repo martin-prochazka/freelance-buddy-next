@@ -4,6 +4,14 @@ import {signIn} from 'next-auth/client'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 
+const login = (email: string, password: string) => {
+	signIn('credentials', {
+		username: email,
+		password,
+		callbackUrl: process.env.NEXT_PUBLIC_SERVER,
+	})
+}
+
 const SignIn: React.FC<{csrfToken: string}> = () => {
 	const {query} = useRouter()
 	const toast = useToast()
@@ -11,14 +19,7 @@ const SignIn: React.FC<{csrfToken: string}> = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-	const login = () => {
-		signIn('credentials', {
-			username: email,
-			password,
-			callbackUrl: (query['callbackUrl'] as string) || process.env.NEXT_PUBLIC_SERVER,
-		})
-	}
-	const hasLoginFailed = Boolean(query['error'])
+	const hasLoginFailed = Boolean(query.error)
 	useEffect(() => {
 		if (hasLoginFailed) {
 			toast({
@@ -40,7 +41,7 @@ const SignIn: React.FC<{csrfToken: string}> = () => {
 				<FormLabel>Password</FormLabel>
 				<Input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
 			</FormControl>
-			<Button onClick={login}>Sign In</Button>
+			<Button onClick={() => login(email, password)}>Sign In</Button>
 		</Container>
 	)
 }
