@@ -25,4 +25,14 @@ export default NextAuth({
 			},
 		}),
 	],
+	pages: {
+		signIn: '/auth/signin',
+	},
+	session: {
+		jwt: true,
+	},
+	jwt: {
+		signingKey: process.env.NEXTAUTH_JWT_SIGNING_PRIVATE_KEY,
+	},
+	secret: process.env.NEXTAUTH_SECRET,
 })
