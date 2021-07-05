@@ -1,18 +1,13 @@
 import {SERVER_PATH} from 'app/search-page/api/constants'
-import {starredCodec} from 'app/search-page/api/types'
+import {Starred, starredArraySchema} from 'app/search-page/api/types'
 import axios from 'axios'
-import {isRight} from 'fp-ts/Either'
-import * as t from 'io-ts'
 
-export const getStarred = async () => {
+export const getStarred = async (): Promise<Starred[]> => {
 	const {data} = await axios.get(`${SERVER_PATH}/api/starred`)
 
-	const decoded = t.array(starredCodec).decode(data)
-	if (isRight(decoded)) {
-		return data
-	}
+	const starred = starredArraySchema.parse(data)
 
-	throw new Error()
+	return starred
 }
 
 export const postStar = async (buddyId: number) => {

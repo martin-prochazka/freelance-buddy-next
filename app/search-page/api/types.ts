@@ -1,23 +1,29 @@
-import * as t from 'io-ts'
+import {z} from 'zod'
 
-const userCodec = t.type({
-	name: t.string,
-	email: t.string,
-	avatar: t.string,
+export const userSchema = z.object({
+	name: z.string(),
+	email: z.string(),
+	avatar: z.string(),
 })
 
-export const buddyCodec = t.type({
-	id: t.number,
-	user: userCodec,
-	role: t.string,
-	skills: t.array(t.string),
+export type User = z.infer<typeof userSchema>
+
+const buddySchema = z.object({
+	id: z.number(),
+	user: userSchema,
+	role: z.string(),
+	skills: z.array(z.string()),
 })
 
-export type TBuddy = t.TypeOf<typeof buddyCodec>
+export const buddiesSchema = z.array(buddySchema)
 
-export const starredCodec = t.type({
-	id: t.number,
-	buddyId: t.number,
+export type Buddy = z.infer<typeof buddySchema>
+
+const starredSchema = z.object({
+	id: z.number(),
+	buddyId: z.number(),
 })
 
-export type TStarred = t.TypeOf<typeof starredCodec>
+export const starredArraySchema = z.array(starredSchema)
+
+export type Starred = z.infer<typeof starredSchema>

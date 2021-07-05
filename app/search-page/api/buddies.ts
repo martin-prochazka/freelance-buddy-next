@@ -1,21 +1,22 @@
 import {SERVER_PATH} from 'app/search-page/api/constants'
-import {buddyCodec} from 'app/search-page/api/types'
+import {buddiesSchema, Buddy} from 'app/search-page/api/types'
 import axios from 'axios'
-import {isRight} from 'fp-ts/Either'
-import * as t from 'io-ts'
 
 export const PAGE_ITEMS = 20
 
-export const getBuddies = async ({search = '', pageParam}: {search?: string; pageParam?: number}) => {
+export const getBuddies = async ({
+	search = '',
+	pageParam,
+}: {
+	search?: string
+	pageParam?: number
+}): Promise<{data: Buddy[]; nextPage?: number}> => {
 	const {data: response} = await axios.get(
 		`${SERVER_PATH}/api/buddies?search=${search}&page=${pageParam}&count=${PAGE_ITEMS}`
 	)
 
-	const decoded = t.array(buddyCodec).decode(response.data)
-	if (isRight(decoded)) {
-		const {data, nextPage} = response
-		return {data, nextPage}
-	}
+	const data = buddiesSchema.parse(response.data)
+	const {nextPage} = response
 
-	throw new Error()
+	return {data, nextPage}
 }
