@@ -1,24 +1,11 @@
 import {Prisma} from '@prisma/client'
 import {PAGE_ITEMS} from 'app/search-page/api/buddies'
-import {TBuddy} from 'app/search-page/api/types'
+import {BuddyEntity} from 'app/search-page/api/types'
+import {getNumber} from 'app/utils/api-utils'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import prisma from 'prisma/db'
 
-const getNumber = (param: string | string[]): number | null => {
-	if (Array.isArray(param)) {
-		return null
-	}
-
-	const number = Number(param)
-
-	if (Number.isNaN(number)) {
-		return null
-	}
-
-	return number
-}
-
-export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[]; nextPage?: number}>) => {
+export default async (req: NextApiRequest, res: NextApiResponse<{data: BuddyEntity[]; nextPage?: number}>) => {
 	const {
 		query: {page: pageParam, count: countParam, search: searchParam},
 		method,
@@ -66,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<{data: TBuddy[];
 		})
 		const dbCount = await prisma.buddy.count({where})
 
-		const buddies: TBuddy[] = dbBuddies.map((buddy) => ({
+		const buddies: BuddyEntity[] = dbBuddies.map((buddy) => ({
 			...buddy,
 			user: buddy.user!,
 			skills: buddy.skills.map(({name}) => name),

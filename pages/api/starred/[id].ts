@@ -15,7 +15,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const {id} = req.query
 
 		await prisma.starred.delete({where: {id: Number(id)}})
+
 		res.status(200).end()
+		return
 	}
 
 	res.status(403).end()

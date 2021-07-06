@@ -1,7 +1,7 @@
 import {Avatar, Box, Center, Flex} from '@chakra-ui/react'
 import React from 'react'
 
-export const SearchBuddyHeader: React.FC<{avatar: string; role: string; name: string}> = ({avatar, name, role}) => (
+export const BuddyHeader: React.FC<{avatar: string; role: string; name: string}> = ({avatar, name, role}) => (
 	<Center>
 		<Flex alignItems='center'>
 			<Avatar src={avatar} marginRight='3' />

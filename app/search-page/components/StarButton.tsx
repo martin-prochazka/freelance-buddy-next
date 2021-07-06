@@ -2,12 +2,10 @@ import {IconButton, Icon} from '@chakra-ui/react'
 import React from 'react'
 import {FaStar, FaRegStar} from 'react-icons/fa'
 
-export interface StarButtonProps {
+export const StarButton: React.FC<{
 	isStarred: boolean
 	onClick: () => void
-}
-
-export const StarButton: React.FC<StarButtonProps> = ({isStarred, onClick}) => (
+}> = ({isStarred, onClick}) => (
 	<IconButton
 		aria-label='Star'
 		variant='outline'

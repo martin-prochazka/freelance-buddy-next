@@ -1,11 +1,11 @@
 import {Button, Center, Flex, Input, Spinner} from '@chakra-ui/react'
-import {PAGE_ITEMS} from 'app/search-page/api/buddies'
-import {SearchBuddy} from 'app/search-page/components/SearchBuddy'
-import {useGetBuddies, useGetStarred} from 'app/search-page/hooks'
+import {PAGE_ITEMS, useGetBuddies} from 'app/search-page/api/buddies'
+import {useGetStarred} from 'app/search-page/api/starred'
+import {Buddy} from 'app/search-page/components/Buddy'
 import React, {useState} from 'react'
 import {useDebounce} from 'use-debounce'
 
-export const SearchPage: React.FC = () => {
+export const Buddies: React.FC = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [searchDebounced] = useDebounce(searchValue, 500)
 
@@ -28,7 +28,7 @@ export const SearchPage: React.FC = () => {
 			<Flex flexWrap='wrap' justifyContent='center' alignItems='center'>
 				{status === 'loading' && <Spinner size='xl' color='gray' />}
 				{status === 'success' &&
-					buddies?.map((buddy) => <SearchBuddy buddy={buddy} starred={starred} key={buddy.id} />)}
+					buddies?.map((buddy) => <Buddy buddy={buddy} starred={starred} key={buddy.id} />)}
 			</Flex>
 			<Center marginY='5%'>
 				<Button

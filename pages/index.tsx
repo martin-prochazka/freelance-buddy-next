@@ -3,9 +3,8 @@ import type {NextPageContext} from 'next'
 import {getSession} from 'next-auth/client'
 import {QueryClient} from 'react-query'
 import {dehydrate} from 'react-query/hydration'
-import {SearchPage} from 'app/search-page/components/SearchPage'
-
-export const GET_BUDDIES_KEY = 'buddies'
+import {Buddies} from 'app/search-page/components/Buddies'
+import {GET_BUDDIES_KEY} from 'app/search-page/api/constants'
 
 export async function getServerSideProps(ctx: NextPageContext) {
 	const queryClient = new QueryClient()
@@ -21,4 +20,4 @@ export async function getServerSideProps(ctx: NextPageContext) {
 	}
 }
 
-export default SearchPage
+export default Buddies

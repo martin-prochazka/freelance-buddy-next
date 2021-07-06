@@ -1,6 +1,7 @@
-import {SERVER_PATH} from 'app/search-page/api/constants'
-import {buddiesSchema, Buddy} from 'app/search-page/api/types'
+import {GET_BUDDIES_KEY, SERVER_PATH} from 'app/search-page/api/constants'
+import {buddiesSchema, BuddyEntity} from 'app/search-page/api/types'
 import axios from 'axios'
+import {useInfiniteQuery} from 'react-query'
 
 export const PAGE_ITEMS = 20
 
@@ -10,7 +11,7 @@ export const getBuddies = async ({
 }: {
 	search?: string
 	pageParam?: number
-}): Promise<{data: Buddy[]; nextPage?: number}> => {
+}): Promise<{data: BuddyEntity[]; nextPage?: number}> => {
 	const {data: response} = await axios.get(
 		`${SERVER_PATH}/api/buddies?search=${search}&page=${pageParam}&count=${PAGE_ITEMS}`
 	)
@@ -19,4 +20,17 @@ export const getBuddies = async ({
 	const {nextPage} = response
 
 	return {data, nextPage}
+}
+
+export const useGetBuddies = (search: string) => {
+	const {data, fetchNextPage, isFetchingNextPage, hasNextPage, status} = useInfiniteQuery<{
+		data: BuddyEntity[]
+		nextPage?: number
+	}>([GET_BUDDIES_KEY, search], (params) => getBuddies({search, pageParam: params.pageParam ?? 1}), {
+		getNextPageParam: (lastPage) => lastPage.nextPage,
+	})
+
+	const buddies = data?.pages?.map(({data}) => data).flat()
+
+	return {buddies, fetchNextPage, isFetchingNextPage, hasNextPage, status}
 }

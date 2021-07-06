@@ -1,48 +1,35 @@
 import {Center} from '@chakra-ui/react'
 import {BuddyBox} from 'app/search-page/components/BuddyBox'
-import {SearchBuddyHeader} from 'app/search-page/components/SearchBuddyHeader'
+import {BuddyHeader} from 'app/search-page/components/BuddyHeader'
 import {Skill} from 'app/search-page/components/Skill'
 import {SkillBox} from 'app/search-page/components/SkillBox'
 import {StarButton} from 'app/search-page/components/StarButton'
 import {useSession} from 'next-auth/client'
-import {deleteStar, postStar} from 'app/search-page/api/starred'
+import {useAddStar, useRemoveStar} from 'app/search-page/api/starred'
 import React, {useMemo} from 'react'
-import {useMutation, useQueryClient} from 'react-query'
-import {TBuddy, TStarred} from 'app/search-page/api/types'
+import {BuddyEntity, StarredEntity} from 'app/search-page/api/types'
 
-export const GET_STARRED_KEY = 'starred'
-
-export const SearchBuddy: React.FC<{buddy: TBuddy; starred: TStarred[]}> = ({buddy, starred}) => {
+export const Buddy: React.FC<{buddy: BuddyEntity; starred: StarredEntity[]}> = ({buddy, starred}) => {
 	const [session] = useSession()
-	const queryClient = useQueryClient()
 
 	const starredIds = useMemo(() => starred.map(({buddyId}) => buddyId), [starred])
 	const isStarred = useMemo(() => starredIds.includes(buddy.id), [buddy.id, starredIds])
 
-	const addStarMutation = useMutation(postStar, {
-		onSuccess: () => {
-			queryClient.invalidateQueries(GET_STARRED_KEY)
-		},
-	})
-
-	const deleteStarMutation = useMutation(deleteStar, {
-		onSuccess: () => {
-			queryClient.invalidateQueries(GET_STARRED_KEY)
-		},
-	})
+	const addStar = useAddStar()
+	const deleteStar = useRemoveStar()
 
 	const onStarClick = () => {
 		if (!isStarred) {
-			addStarMutation.mutate(buddy.id)
+			addStar(buddy.id)
 		} else {
 			const id = starred.find(({buddyId}) => buddyId === buddy.id)?.id
-			id && deleteStarMutation.mutate(id)
+			id && deleteStar(id)
 		}
 	}
 
 	return (
 		<BuddyBox>
-			<SearchBuddyHeader avatar={buddy.user.avatar} name={buddy.user.name} role={buddy.role} />
+			<BuddyHeader avatar={buddy.user.avatar} name={buddy.user.name} role={buddy.role} />
 			<SkillBox>
 				{buddy.skills.map((skill, index) => (
 					<Skill skill={skill} key={index} />

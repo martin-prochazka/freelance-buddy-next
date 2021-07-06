@@ -6,8 +6,6 @@ export const userSchema = z.object({
 	avatar: z.string(),
 })
 
-export type User = z.infer<typeof userSchema>
-
 const buddySchema = z.object({
 	id: z.number(),
 	user: userSchema,
@@ -17,8 +15,6 @@ const buddySchema = z.object({
 
 export const buddiesSchema = z.array(buddySchema)
 
-export type Buddy = z.infer<typeof buddySchema>
-
 const starredSchema = z.object({
 	id: z.number(),
 	buddyId: z.number(),
@@ -26,4 +22,6 @@ const starredSchema = z.object({
 
 export const starredArraySchema = z.array(starredSchema)
 
-export type Starred = z.infer<typeof starredSchema>
+export type UserEntity = z.infer<typeof userSchema>
+export type BuddyEntity = z.infer<typeof buddySchema>
+export type StarredEntity = z.infer<typeof starredSchema>
