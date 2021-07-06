@@ -1,9 +1,24 @@
-# Header
+# What's this about
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+This is exploration project that tries using Next.js (TypeScript), Prisma (sqlite) and NextAuth (credentials).
 
-## Subheader
+## How to run
 
 ```
 npm install
+npm run dev
+```
+
+## How to browse database
+
+```
+npx prisma studio
+```
+
+## How to seed database with new data
+
+Database should be seeded but if you want to remove data and let it seeded again
+
+```
+npx prisma db seed --preview-feature
 ```
