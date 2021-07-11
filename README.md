@@ -2,6 +2,10 @@
 
 This is exploration project that tries using Next.js (TypeScript), Prisma (sqlite) and NextAuth (credentials).
 
+You can load all "buddies" and search them. You can sing in as some buddy (passwords are not hashed in DB) and set a star for your favorite buddies. That is all for now.
+
+There are no tests at the moment.
+
 ## How to run
 
 ```
